@@ -1,0 +1,30 @@
+<html>
+<head>
+
+
+    <script type="text/javascript" src="../wisp.js"></script>
+    <script type="text/javascript">
+        wisp.DomReady(function(){
+            var txtName = wisp.UserControls.create('textbox');
+            txtName.isRequired = true;
+            txtName.dataType = 'email';
+            txtName.validationMethod = "message";
+            txtName.renderControl('target1');
+
+            var txtName2 = wisp.UserControls.create('textbox');
+            txtName2.isRequired = true;
+            txtName2.dataType = 'text';
+            txtName2.validationMethod = "message";
+            txtName2.renderControl('target2');
+            console.log(txtName.value());
+        })
+
+    </script>
+</head>
+<body>
+<div id="target1"></div>
+<div id="target2"></div>
+
+</body>
+
+</html>
