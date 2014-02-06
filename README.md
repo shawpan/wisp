@@ -5,7 +5,11 @@ A JavaScript library for fancy User Controls
 
 Sample
 ======
-
+Add script
+```
+<script type="text/javascript" src="../wisp.js"></script>
+```
+Then,
 ```
 wisp.DomReady(function(){
             var txtName = wisp.UserControls.create('textbox');
