@@ -227,7 +227,7 @@
         // creates and returns a user control of type: ctrltype
         create : function(ctrlType){
             //if ctrlType exists
-            if(wisp.Factory[ctrlType] && getType.toString.call(wisp.Factory[ctrlType]) === '[object Function]')
+            if(typeof wisp.Factory[ctrlType] == 'function')
                 return wisp.Factory[ctrlType]();
             //else return default
             return wisp.Factory['defaultType']();
