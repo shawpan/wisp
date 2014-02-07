@@ -207,8 +207,8 @@
         return txtBox;
     }
 
-    Factory.createDefault = createDefault;
-    Factory.createTextBox = createTextBox;
+    Factory.defaultType = createDefault;
+    Factory.textbox = createTextBox;
 
 
 
@@ -225,21 +225,12 @@
     var UserControls = {
 
         // creates and returns a user control of type: ctrltype
-        create : function(ctrlType, createControl){
-
-            //if createControl is defined and a function then use it
-            if(createControl && getType.toString.call(createControl) === '[object Function]')
-            {
-                return createControl();
-            }
-            //else create the control of type ctrlType
-            switch (ctrlType){
-                case "textbox":
-                    return Factory.createTextBox();
-                    break;
-                default :
-                    return Factory.createDefault()
-            }
+        create : function(ctrlType){
+            //if ctrlType exists
+            if(wisp.Factory[ctrlType] && getType.toString.call(wisp.Factory[ctrlType]) === '[object Function]')
+                return wisp.Factory[ctrlType]();
+            //else return default
+            return wisp.Factory['defaultType']();
         }
     }
 
