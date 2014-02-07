@@ -40,7 +40,9 @@ wisp.DomReady(function(){
             txtName.renderControl('target1');
         })
 ```
-**wisp.UserControls** holds the methods to manipulate user controls
+**wisp.UserControls** has the methods to manipulate user controls
+
+current types are **(1) 'textbox'**
 
 **----wisp.UserControls.create(userControlType, customUserControlCreateFunction)** if customUserControlCreateFunction is provided, it ignores userControlType
 ```
@@ -68,7 +70,15 @@ function customCreateControl(){
     }
  var txtName2 = wisp.UserControls.create('',customCreateControl);
 ```
-**wisp.Models.UserControl**
+**wisp.Models.UserControl** should be inherited by all types of UserControls
+```
+//a new UserControl for text box
+function UserControlTextBox()
+    {
+        this.dataType = '';
+    }
+    UserControlTextBox.prototype = new UserControl();
+```
 
 **----wisp.Models.UserControl.id** unique id
 
@@ -83,3 +93,75 @@ function customCreateControl(){
 **----wisp.Models.UserControl.validationMethod** currently two types supported (1) 'color' (2) 'message'
 
 **----wisp.Models.UserControl.validationMessage** object to show validation message
+
+**----wisp.Models.UserControl.getId()** returns its unique Id
+
+**----wisp.Models.UserControl.setId(value)** sets unique id to value
+
+**----wisp.Models.UserControl.validate()** must be implemented to set validation method/settings
+```
+    //validate user input for the text box
+    UserControlTextBox.prototype.validate = function(){
+        console.log('UserControlTextBox validation');
+        var userCtrl = this;
+
+        if(userCtrl.dataType == 'email') {
+            userCtrl.setPlaceholder("Enter email ... ");
+        }
+        //add event listener for the text box value change
+        this.domElement.oninput = function (){
+
+            //check if field is required
+            if(userCtrl.isRequired && userCtrl.value() == ""){
+                console.log('required field');
+                userCtrl.showValidationError();
+            }
+            //check if the input is a wrongly formatted email
+            else if(userCtrl.dataType == 'email' && !validateEmail(userCtrl.value())){
+                console.log('require email field');
+                userCtrl.showValidationError();
+            }
+            else {
+                userCtrl.clearValidationError();
+            }
+        }
+    }
+```
+
+**----wisp.Models.UserControl.showValidationError()** must be implemented to show validation 
+```
+//show validation error
+    UserControlTextBox.prototype.showValidationError = function() {
+
+        if(this.validationMethod != "color") {
+            if(!this.validationMessageRendered) {
+                console.log(this.getId());
+                var errorDiv = document.createElement('div');
+                errorDiv.id = 'validate-'+this.getId();
+                errorDiv.innerHTML = this.validationMessage[this.dataType] ? this.validationMessage[this.dataType] : "Error";
+                document.getElementById(this.getId()).parentNode.appendChild(errorDiv);
+                this.validationMessageRendered = true;
+            }
+            else {
+                document.getElementById('validate-'+this.getId()).style.display = "block";
+            }
+        }
+        else
+            document.getElementById(this.getId()).style.border = "1px solid #ff0000";
+    }
+```
+
+**----wisp.Models.UserControl.clearValidationError()** must be implemented to clear validation
+```
+//clear validation error
+    UserControlTextBox.prototype.clearValidationError = function(){
+
+        if(this.validationMethod != "color" && this.validationMessageRendered) {
+            document.getElementById('validate-'+this.getId()).style.display = "none";
+        }
+        else
+            document.getElementById(this.getId()).style.border = "1px solid #000000";
+    }
+```
+
+**----wisp.Models.UserControl.renderControl(targetElementId)** renders the user control inside dom element with id=targetElementId
