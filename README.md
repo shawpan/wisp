@@ -44,13 +44,15 @@ wisp.DomReady(function(){
 
 current types are **(1) 'textbox'**
 
-**----wisp.UserControls.create(userControlType, customUserControlCreateFunction)** if customUserControlCreateFunction is provided, it ignores userControlType
+**----wisp.UserControls.create(userControlType)** 
 ```
 //create a user control of type textbox
  var txtName2 = wisp.UserControls.create('textbox');
 ```
+
+**----wisp.Factory** has create methods for control types 
+
 ```
-//create a user control using customCreateControl function
 // customCreateControl returns a object that inherits from wisp.Models.UserControl
 function customCreateControl(){
        //CustomUserControlTextBox inherits from wisp.Models.UserControl
@@ -62,13 +64,16 @@ function customCreateControl(){
         txtBoxDom.placeholder = "Enter text here";
         txtBoxDom.style = "border:1px solid #000000";
 
-        txtBox.type = "textbox";
+        txtBox.type = "customtextbox";
         txtBox.domElement = txtBoxDom;
         txtBox.dataType = "text"
 
         return txtBox;
     }
- var txtName2 = wisp.UserControls.create('',customCreateControl);
+    //create a factory method for a new user control of type 'customtextbox'
+    wisp.Factory.customtextbox = customCreateControl;
+    //a new controltype 'customtextbox' is ready to use !!!
+    var txtName2 = wisp.UserControls.create('customtextbox');
 ```
 **wisp.Models.UserControl** should be inherited by all types of UserControls
 ```
