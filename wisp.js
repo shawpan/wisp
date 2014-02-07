@@ -33,6 +33,9 @@
     * This section defines the model classes
      */
 
+    //object that holds model classes
+    var Models = {};
+
     //create a UserControl class
     function UserControl()
     {
@@ -159,6 +162,8 @@
         }
     }
 
+    Models.UserControl = UserControl;
+    Models.UserControlTextBox = UserControlTextBox;
 
 
 
@@ -179,7 +184,7 @@
     }
     //create and return a text box
     function createTextBox(){
-        var txtBox = new UserControlTextBox();
+        var txtBox = new Models.UserControlTextBox();
 
         var txtBoxDom = document.createElement("input");
         txtBoxDom.type = "text";
@@ -212,13 +217,20 @@
     var UserControls = {
 
         // creates and returns a user control of type: ctrltype
-        create : function(ctrlType){
+        create : function(ctrlType, createControl){
+
+            //if createControl is defined and a function then use it
+            if(createControl && getType.toString.call(createControl) === '[object Function]')
+            {
+                return createControl();
+            }
+            //else create the control of type ctrlType
             switch (ctrlType){
                 case "textbox":
-                    return createTextBox();
+                    return Factory.createTextBox();
                     break;
                 default :
-                    return createDefault()
+                    return Factory.createDefault()
             }
         }
     }
@@ -235,7 +247,7 @@
     //assign desired objects to wisp namespace
     wisp.UserControls = UserControls;
     wisp.Factory = Factory;
-
+    wisp.Models = Models;
 
     //some settings variable
     wisp.isDomReady = false;
