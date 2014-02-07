@@ -59,11 +59,19 @@
 
         //set unique id
         setId : function(val) {
-            this.domElement.id = this.type + "-" +val.toString();
+            this.domElement.id = 'wisp-' + this.type + "-" +val.toString();
         },
         //implements on how this control should be validated
         validate : function(){
             console.log('User Control validation');
+        },
+        //implements on how to show validation error
+        showValidationError : function() {
+            console.log('Show validation error');
+        },
+        //implements on how to clear validation error
+        clearValidationError : function() {
+            console.log('Clear validation error');
         },
         //render the user control's dom element under element with Id = [targetElId]
         renderControl : function(targetElId){
@@ -189,7 +197,7 @@
         var txtBoxDom = document.createElement("input");
         txtBoxDom.type = "text";
         txtBoxDom.value = ""
-        txtBoxDom.placeholder = "Enter text here";
+        txtBoxDom.placeholder = "Enter text ...";
         txtBoxDom.style = "border:1px solid #000000";
 
         txtBox.type = "textbox";
