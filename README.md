@@ -50,7 +50,7 @@ current types are **(1) 'textbox'**
  var txtName2 = wisp.UserControls.create('textbox');
 ```
 
-**----wisp.Factory** has create methods for control types 
+**wisp.Factory** has create methods for control types 
 
 ```
 // customCreateControl returns a object that inherits from wisp.Models.UserControl
