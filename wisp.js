@@ -42,7 +42,7 @@
         this.id = '';
         this.type = 'default';
         this.domElement = '';
-        this.borderColor = '';
+        this.borderColor = '#ff0000';
         this.isRequired = false;
         this.validationMethod = "color"
         this.validationMessageRendered = false;
