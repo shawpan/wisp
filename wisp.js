@@ -130,7 +130,7 @@
             }
         }
         else
-            document.getElementById(this.getId()).style.border = "1px solid #ff0000";
+            document.getElementById(this.getId()).style.border = "1px solid " + this.borderColor;
     }
 
     //clear validation error
